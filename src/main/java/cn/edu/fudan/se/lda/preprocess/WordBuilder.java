@@ -19,10 +19,10 @@ public class WordBuilder {
 	
 	public List<List<String>> getWordInRepositoryScopeStanford(int min, int max){
 		List<List<String>> result = new LinkedList<List<String>>();
-		List<Gitcommit> list = dao.selectByRepositoryScope(min, max);
-		for(Gitcommit commit: list){
-			List<String> l = stanfordProcessor.preprocess(commit.getMessage());
-			System.out.println(commit.getMessage());
+		List<String> list = dao.selectMessageByRepositoryScope(min, max);
+		for(String message: list){
+			List<String> l = stanfordProcessor.preprocess(message);
+			System.out.println(message);
 			for(String s : l){
 				System.out.print(s+"/");
 			}
@@ -34,10 +34,10 @@ public class WordBuilder {
 	
 	public List<List<String>> getWordInRepositoryScope(int min, int max){
 		List<List<String>> result = new LinkedList<List<String>>();
-		List<Gitcommit> list = dao.selectByRepositoryScope(min, max);
-		for(Gitcommit commit: list){
-			List<String> l = preProcessor.preprocess(commit.getMessage());
-			System.out.println(commit.getMessage());
+		List<String> list = dao.selectMessageByRepositoryScope(min, max);
+		for(String message: list){
+			List<String> l = preProcessor.preprocess(message);
+			System.out.println(message);
 			for(String s : l){
 				System.out.print(s+"/");
 			}
