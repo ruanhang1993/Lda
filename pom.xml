@@ -1,0 +1,99 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>cn.edu.fudan.se</groupId>
+  <artifactId>lda</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+  
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-simple</artifactId>
+		    <version>1.7.25</version>
+		    <scope>test</scope>
+		</dependency>
+
+        
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers-common</artifactId>
+			<version>6.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>6.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers-smartcn</artifactId>
+			<version>6.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-queryparser</artifactId>
+			<version>6.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-highlighter</artifactId>
+			<version>6.6.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/edu.stanford.nlp/stanford-corenlp -->
+		<dependency>
+		    <groupId>edu.stanford.nlp</groupId>
+		    <artifactId>stanford-corenlp</artifactId>
+		    <version>3.7.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>edu.stanford.nlp</groupId>
+		    <artifactId>stanford-corenlp</artifactId>
+		    <version>3.7.0</version>
+		    <classifier>models</classifier>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>cn.edu.fudan.se</groupId>
+		    <artifactId>DataExtractor</artifactId>
+		    <version>0.0.1-SNAPSHOT</version>
+		</dependency> 
+		
+		<!-- https://mvnrepository.com/artifact/jgibblda/jgibblda -->
+		<!-- <dependency>
+		    <groupId>jgibblda</groupId>
+		    <artifactId>jgibblda</artifactId>
+		    <version>1.0</version>
+		</dependency> -->
+		<!-- https://mvnrepository.com/artifact/args4j/args4j -->
+		<dependency>
+		    <groupId>args4j</groupId>
+		    <artifactId>args4j</artifactId>
+		    <version>2.0.6</version>
+		</dependency>
+		
+    </dependencies>
+    <build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<target>1.8</target>
+					<source>1.8</source>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+		<finalName>Lda</finalName>
+	</build>
+</project>
