@@ -42,7 +42,7 @@ public class TestCorpus
     public void testAll() throws Exception
     {
         // 1. Load corpus from disk
-        Corpus corpus = Corpus.load(1000,2000);
+        Corpus corpus = Corpus.load("test.txt");
         // 2. Create a LDA sampler
         LdaGibbsSampler ldaGibbsSampler = new LdaGibbsSampler(corpus.getDocument(), corpus.getVocabularySize());
         // 3. Train it
@@ -50,6 +50,31 @@ public class TestCorpus
         // 4. The phi matrix is a LDA model, you can use LdaUtil to explain it.
         double[][] phi = ldaGibbsSampler.getPhi();
         Map<String, Double>[] topicMap = LdaUtil.translate(phi, corpus.getVocabulary(), 10);
+        LdaUtil.explain(topicMap);
+        // 5. TODO:Predict. I'm not sure whether it works, it is not stable.
+        int[] document = Corpus.loadDocument("D:/javaee/lda/src/main/resources/军事_510.txt", corpus.getVocabulary());
+        double[] tp = LdaGibbsSampler.inference(phi, document);
+        Map<String, Double> topic = LdaUtil.translate(tp, phi, corpus.getVocabulary(), 10);
+        LdaUtil.explain(topic);
+    }
+    
+    @Test
+    public void testOne() throws Exception
+    {
+        // 1. Load corpus from disk
+    	System.out.println("start");
+        Corpus corpus = Corpus.loadOneFile("1000-1050.txt");
+    	System.out.println("load completed");
+        // 2. Create a LDA sampler
+        LdaGibbsSampler ldaGibbsSampler = new LdaGibbsSampler(corpus.getDocument(), corpus.getVocabularySize());
+    	System.out.println("lda start");
+        // 3. Train it
+        ldaGibbsSampler.gibbs(3);
+    	System.out.println("train completed");
+    	System.out.println();
+        // 4. The phi matrix is a LDA model, you can use LdaUtil to explain it.
+        double[][] phi = ldaGibbsSampler.getPhi();
+        Map<String, Double>[] topicMap = LdaUtil.translate(phi, corpus.getVocabulary(), 50);
         LdaUtil.explain(topicMap);
         // 5. TODO:Predict. I'm not sure whether it works, it is not stable.
         int[] document = Corpus.loadDocument("D:/javaee/lda/src/main/resources/军事_510.txt", corpus.getVocabulary());

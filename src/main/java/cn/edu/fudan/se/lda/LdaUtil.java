@@ -13,9 +13,6 @@ package cn.edu.fudan.se.lda;
 
 import java.util.*;
 
-/**
- * @author hankcs
- */
 public class LdaUtil
 {
     /**

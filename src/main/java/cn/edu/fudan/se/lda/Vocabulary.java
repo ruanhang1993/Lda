@@ -11,23 +11,16 @@
  */
 package cn.edu.fudan.se.lda;
 
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * a word set
- *
- * @author hankcs
- */
 public class Vocabulary
 {
-    Map<String, Integer> word2idMap;
-    String[] id2wordMap;
+    List<String> words;
 
     public Vocabulary()
     {
-        word2idMap = new TreeMap<String, Integer>();
-        id2wordMap = new String[1024];
+        words = new ArrayList<String>();
     }
 
     public Integer getId(String word)
@@ -37,52 +30,33 @@ public class Vocabulary
 
     public String getWord(int id)
     {
-        return id2wordMap[id];
+        return words.get(id);
     }
 
     public Integer getId(String word, boolean create)
     {
-        Integer id = word2idMap.get(word);
+        Integer id = words.indexOf(word);
         if (!create) return id;
-        if (id == null)
+        if (id == -1)
         {
-            id = word2idMap.size();
-            word2idMap.put(word, id);
-            if (id2wordMap.length - 1 < id)
-            {
-                resize(word2idMap.size() * 2);
-            }
-            id2wordMap[id] = word;
+            id = words.size();
+            words.add(word);
         }
         return id;
     }
 
-    private void resize(int n)
-    {
-        String[] nArray = new String[n];
-        System.arraycopy(id2wordMap, 0, nArray, 0, id2wordMap.length);
-        id2wordMap = nArray;
-    }
-//
-//    private void loseWeight()
-//    {
-//        if (size() == id2wordMap.length) return;
-//        resize(word2idMap.size());
-//    }
-
     public int size()
     {
-        return word2idMap.size();
+        return words.size();
     }
 
     @Override
     public String toString()
     {
         final StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < id2wordMap.length; i++)
+        for (int i = 0; i < words.size(); i++)
         {
-            if (id2wordMap[i] == null) break;
-            sb.append(i).append("=").append(id2wordMap[i]).append("\n");
+            sb.append(i).append("=").append(words.get(i)).append("\n");
         }
         return sb.toString();
     }

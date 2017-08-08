@@ -20,8 +20,15 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 public class StanfordParser {
 	private Analyzer analyzer;
 
+	Properties props; 
+    
+    StanfordCoreNLP pipeline; 
+
 	public StanfordParser() {
 		analyzer = new StandardAnalyzer();
+		props = new Properties(); 
+		props.put("annotators", "tokenize, ssplit, pos, lemma"); 
+		pipeline = new StanfordCoreNLP(props, false); 
 	}
 
 	public List<String> preprocess(String text) {
@@ -47,9 +54,6 @@ public class StanfordParser {
 	}
 	
 	public String lemmatize(String word){
-		Properties props = new Properties(); 
-        props.put("annotators", "tokenize, ssplit, pos, lemma"); 
-        StanfordCoreNLP pipeline = new StanfordCoreNLP(props, false); 
         Annotation document = pipeline.process(word);  
         
         CoreLabel token = document.get(SentencesAnnotation.class).get(0).get(TokensAnnotation.class).get(0);    

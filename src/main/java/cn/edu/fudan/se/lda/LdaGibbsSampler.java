@@ -224,9 +224,7 @@ public class LdaGibbsSampler {
         // initial state of the Markov chain:
         initialState(K);
 
-        System.out.println("Sampling " + ITERATIONS
-                + " iterations with burn-in of " + BURN_IN + " (B/S="
-                + THIN_INTERVAL + ").");
+        System.out.println("Sampling " + ITERATIONS + " iterations with burn-in of " + BURN_IN + " (B/S=" + THIN_INTERVAL + ").");
 
         for (int i = 0; i < ITERATIONS; i++) {
 
@@ -428,8 +426,7 @@ public class LdaGibbsSampler {
      * @param thinInterval update statistics interval
      * @param sampleLag    sample interval (-1 for just one sample at the end)
      */
-    public void configure(int iterations, int burnIn, int thinInterval,
-                          int sampleLag) {
+    public void configure(int iterations, int burnIn, int thinInterval, int sampleLag) {
         ITERATIONS = iterations;
         BURN_IN = burnIn;
         THIN_INTERVAL = thinInterval;
@@ -559,8 +556,7 @@ public class LdaGibbsSampler {
 
         System.out.println();
         System.out.println();
-        System.out.println("Document--Topic Associations, Theta[d][k] (alpha="
-                + alpha + ")");
+        System.out.println("Document--Topic Associations, Theta[d][k] (alpha=" + alpha + ")");
         System.out.print("d\\k\t");
         for (int m = 0; m < theta[0].length; m++) {
             System.out.print("   " + m % 10 + "    ");
@@ -575,8 +571,7 @@ public class LdaGibbsSampler {
             System.out.println();
         }
         System.out.println();
-        System.out.println("Topic--Term Associations, Phi[k][w] (beta=" + beta
-                + ")");
+        System.out.println("Topic--Term Associations, Phi[k][w] (beta=" + beta + ")");
 
         System.out.print("k\\w\t");
         for (int w = 0; w < phi[0].length; w++) {

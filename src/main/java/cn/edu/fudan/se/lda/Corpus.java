@@ -159,4 +159,26 @@ public class Corpus
         }
         return result;
     }
+    
+    public static Corpus loadOneFile(String filename) throws IOException
+    {
+        Corpus corpus = new Corpus();
+        File file = new File(filename);
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+        String line = br.readLine();
+        while ((line = br.readLine()) != null){
+        	System.out.println(line);
+            List<String> wordList = new LinkedList<String>();
+            String[] words = line.split(" ");
+            for (String word : words){
+                if (word.trim().length() < 2) continue;
+                wordList.add(word);
+            }
+            corpus.addDocument(wordList);
+        }
+        br.close();
+        if (corpus.getVocabularySize() == 0) return null;
+
+        return corpus;
+    }
 }
