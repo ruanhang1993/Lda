@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,7 +49,7 @@ public class WordBuilder {
 		List<List<String>> result = new LinkedList<List<String>>();
 		List<String> list = dao.selectMessageByRepositoryScope(min, max);
 		for(String message: list){
-			List<String> l = preProcessor.preprocess(message);
+			List<String> l = stanfordProcessor.preprocess(message);
 			System.out.println(message);
 			for(String s : l){
 				System.out.print(s+"/");
@@ -58,14 +59,45 @@ public class WordBuilder {
 		}
 		return result;
 	}
+	public List<String> loadKeyword(String filename){
+		File file = new File(filename);
+		BufferedReader reader = null;
+		List<String> result = new ArrayList<String>();
+		try {
+        	reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+			String topicLine = reader.readLine(); 
+			String[] temp = topicLine.split(" ");
+			for(String s : temp){
+				result.add(s);
+			}
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			if(reader != null){
+				try {
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
 	public void load(String filename, int min, int max)
     {
         File file = new File(filename);
         BufferedWriter br = null;
+        BufferedWriter nw = null;
+        List<String> keywords = this.loadKeyword("keyword.txt");
         try {
         	File tmp = File.createTempFile("tmp",null);
             tmp.deleteOnExit();
-			br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
+            br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
+            nw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("newwords.txt")), "UTF-8"));
 			BufferedWriter tmpOut  = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tmp), "UTF-8"));
 			BufferedReader tmpIn = new BufferedReader(new InputStreamReader(new FileInputStream(tmp), "UTF-8"));
 			long count = 0;
@@ -75,8 +107,12 @@ public class WordBuilder {
 				for(String message: list){
 					count++;
 					tmpOut.newLine();
-					List<String> l = preProcessor.preprocess(message);
+					List<String> l = stanfordProcessor.preprocess(message);
 					for(String s : l){
+						if(!keywords.contains(s)){
+							nw.write(s);
+							nw.newLine();
+						}
 						tmpOut.append(s+" ");
 					}
 				}
@@ -99,6 +135,13 @@ public class WordBuilder {
 			if(br != null){
 				try {
 					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if(nw != null){
+				try {
+					nw.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -215,6 +258,44 @@ public class WordBuilder {
 			}
 		}
     }
+	public void getNewWords(String wordIndex){
+        List<String> keywords = this.loadKeyword("keyword.txt");
+        BufferedReader br = null;
+        BufferedWriter wr = null;
+        try {
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(wordIndex)), "UTF-8"));
+			wr = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("newnewwords.txt")), "UTF-8"));
+			String line = null; 
+			while((line = br.readLine())!=null){
+				String word = line.split(" ")[1];
+				if(!keywords.contains(word)){
+					wr.write(word);
+					wr.newLine();
+				}
+			}
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			if(br != null){
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if(wr != null){
+				try {
+					wr.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	public void createFinalData(String filename, int min, int max)
     {
         File file = new File(filename);
